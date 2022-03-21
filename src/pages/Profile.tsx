@@ -7,6 +7,7 @@ import {
   Container,
   useMantineTheme,
 } from "@mantine/core";
+// import DinoLabsNFT from "../assets/DinoLabsNFT.svg";
 
 const useStyles = createStyles((theme, _params, getRef) => {
   const icon = getRef("icon");
@@ -62,13 +63,7 @@ const useStyles = createStyles((theme, _params, getRef) => {
 const data = [{ link: "", label: "Ticket Details" }];
 
 const TicketDetails = () => {
-  return (
-    <div>
-      <Container>
-        
-      </Container>
-    </div>
-  );
+  return <div></div>;
 };
 
 export const Profile = () => {
@@ -102,6 +97,7 @@ export const Profile = () => {
         </Navbar>
       }
     >
+      {/* <img src={DinoLabsNFT} alt="React Logo" /> */}
       <TicketDetails />
     </AppShell>
   );

@@ -144,7 +144,7 @@ const Control = () => {
 const ControlCard = () => {
   return (
     <Card
-      shadow="sm"
+      shadow="xs"
       withBorder
       style={{
         width: 720,

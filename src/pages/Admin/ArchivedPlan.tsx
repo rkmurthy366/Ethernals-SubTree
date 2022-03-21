@@ -6,14 +6,10 @@ import {
   Navbar,
   useMantineTheme,
   Text,
-  Space,
-  Grid,
-  Group,
-  Button,
   Container,
   Card,
-  SimpleGrid,
 } from "@mantine/core";
+import "./ArchivedPlan.css";
 
 const useStyles = createStyles((theme, _params, getRef) => {
   const icon = getRef("icon");
@@ -75,32 +71,28 @@ const data = [
 
 const PlanCard = () => {
   return (
-    <Card
-      shadow="xs"
-      withBorder
-      style={{
-        margin: "auto",
-        marginBottom: 20,
-        // display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
-      <SimpleGrid cols={3}>
-        <div>
-          <Text weight={500}>SmallPlan</Text>
-          <Text weight={500}>Plan Id: #0001</Text>
-          <Text weight={500}>230 Subscribers</Text>
+    <Card className="archived-plan-card" shadow="xs" withBorder>
+      <div className="archived-grid-container">
+        <div className="archived-grid-items archived-grid-item-1">
+          <Text size="xl" weight={500}>
+            SmallPlan
+          </Text>
+          <Text size="sm" weight={500}>
+            Plan Id: #0001
+          </Text>
+          <Text size="sm" weight={500}>
+            230 Subscribers
+          </Text>
         </div>
-        <div>
+        <div className="archived-grid-items archived-grid-item-2">
           <Text weight={500}>Cost: 15 MATIC</Text>
           <Text weight={500}>Duration: 1 month</Text>
         </div>
-        <div>
+        <div className="archived-grid-items archived-grid-item-3">
           <Text weight={500}>Plan Started 8 days ago</Text>
           <Text weight={500}>Plan Archived/Ended 5 days ago</Text>
         </div>
-      </SimpleGrid>
+      </div>
     </Card>
   );
 };

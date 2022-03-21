@@ -6,14 +6,11 @@ import {
   Navbar,
   useMantineTheme,
   Text,
-  Space,
-  Grid,
-  Group,
   Button,
   Container,
   Card,
-  SimpleGrid,
 } from "@mantine/core";
+import "./ActivePlan.css";
 
 const useStyles = createStyles((theme, _params, getRef) => {
   const icon = getRef("icon");
@@ -75,38 +72,36 @@ const data = [
 
 const PlanCard = () => {
   return (
-    <Card
-      shadow="xs"
-      withBorder
-      style={{
-        margin: "auto",
-        marginBottom: 20,
-        // display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
-      <SimpleGrid cols={3}>
-        <div>
-          <Text weight={500}>SmallPlan</Text>
-          <Text weight={500}>Plan Id: #0001</Text>
-          <Text weight={500}>230 Subscribers</Text>
+    <Card className="ap-plan-card" shadow="xs" withBorder>
+      <div className="ap-grid-container">
+        <div className="ap-grid-items ap-grid-item-1">
+          <Text size="xl" weight={500}>
+            SmallPlan
+          </Text>
+          <Text size="sm" weight={500}>
+            Plan Id: #0001
+          </Text>
+          <Text size="sm" weight={500}>
+            230 Subscribers
+          </Text>
         </div>
-        <div>
+        <div className="ap-grid-items ap-grid-item-2">
           <Text weight={500}>Cost: 15 MATIC</Text>
           <Text weight={500}>Duration: 1 month</Text>
-          <Button variant="light" color="blue">
+        </div>
+        <div className="ap-grid-items ap-grid-item-3">
+          <Text weight={500}>Starts in: 2 days</Text>
+          <Text weight={500}>Ends in: 8 days</Text>
+        </div>
+        <div className="ap-grid-items ap-grid-item-4">
+          <Button variant="light" color="blue" style={{ width: 150 }}>
             Edit Plan
           </Button>
-        </div>
-        <div>
-          <Text weight={500}>Starts in: 8 days</Text>
-          <Text weight={500}>Ends in: 5 days</Text>
-          <Button variant="light" color="red">
+          <Button variant="light" color="red" style={{ width: 150 }}>
             Delete Plan
           </Button>
         </div>
-      </SimpleGrid>
+      </div>
     </Card>
   );
 };

@@ -1,0 +1,29 @@
+.plan-card {
+  margin: auto;
+  margin-bottom: 1.4rem;
+  background-color: rgba(247, 228, 255, 0.192);
+}
+
+.plan-grid-container {
+  display: grid;
+  gap: 0.1rem;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.plan-grid-items {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.plan-grid-item-1 {
+  justify-content: space-between;
+}
+
+.plan-grid-item-2 {
+  align-items: center;
+}
+
+.plan-grid-item-3 {
+  align-items: flex-end;
+}

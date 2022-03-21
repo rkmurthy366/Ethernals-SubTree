@@ -1,0 +1,34 @@
+.ap-plan-card {
+  margin: auto;
+  margin-bottom: 1.4rem;
+  background-color: rgba(247, 228, 255, 0.192);
+}
+
+.ap-grid-container {
+  display: grid;
+  gap: 0.1rem;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.ap-grid-items {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ap-grid-item-1 {
+  justify-content: space-between;
+}
+
+.ap-grid-item-2 {
+  align-items: center;
+}
+
+.ap-grid-item-3 {
+  align-items: center;
+}
+
+.ap-grid-item-4 {
+  align-items: flex-end;
+  justify-content: space-between;
+}

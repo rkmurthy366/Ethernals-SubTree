@@ -26,13 +26,13 @@ The NFT can atmost be transferred 2 times, after that it is non-transferable. We
 
 ## Smart Contract Addresses
 
-[Plan Contract](https://mumbai.polygonscan.com/address/0x240DC01AE68E0c37Fd1E682aBAA0F55feD79AFfD#code)
+[Plan Contract](https://mumbai.polygonscan.com/address/0xFcadb7C74BAac2879a3287EbBb264714751809dE#code)
 
-      Plan Contract Address = 0x240DC01AE68E0c37Fd1E682aBAA0F55feD79AFfD
+      Plan Contract Address = 0xFcadb7C74BAac2879a3287EbBb264714751809dE
 
-[Ticket Contract](https://mumbai.polygonscan.com/address/0x1c238ca5853a8c1276ef9d64e277ba5b824f3636#code)
+[Ticket Contract](https://mumbai.polygonscan.com/address/0xCbd046DF53D98F3Fcf257654891381Cb5003F3C4#code)
 
-      Ticket Contract Address = 0x1c238cA5853A8C1276eF9D64E277BA5B824F3636
+      Ticket Contract Address = 0xCbd046DF53D98F3Fcf257654891381Cb5003F3C4
 
 ## Run Locally
 

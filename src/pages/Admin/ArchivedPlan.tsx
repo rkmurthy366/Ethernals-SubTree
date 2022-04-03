@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { ethers } from "ethers";
+import { planAddress, planABI } from "../../components/Contract/contract";
 import { Link } from "react-router-dom";
 import {
   createStyles,
   AppShell,
   Navbar,
-  useMantineTheme,
   Text,
   Container,
   Card,
@@ -69,41 +70,155 @@ const data = [
   { label: "Controllers", link: "/admin/controllers" },
 ];
 
-const PlanCard = () => {
-  return (
-    <Card className="archived-plan-card" shadow="xs" withBorder>
-      <div className="archived-grid-container">
-        <div className="archived-grid-items archived-grid-item-1">
-          <Text size="xl" weight={500}>
-            SmallPlan
-          </Text>
-          <Text size="sm" weight={500}>
-            Plan Id: #0001
-          </Text>
-          <Text size="sm" weight={500}>
-            230 Subscribers
-          </Text>
-        </div>
-        <div className="archived-grid-items archived-grid-item-2">
-          <Text weight={500}>Cost: 15 MATIC</Text>
-          <Text weight={500}>Duration: 1 month</Text>
-        </div>
-        <div className="archived-grid-items archived-grid-item-3">
-          <Text weight={500}>Plan Started 8 days ago</Text>
-          <Text weight={500}>Plan Archived/Ended 5 days ago</Text>
-        </div>
-      </div>
-    </Card>
-  );
-};
-
 export const ArchivedPlan = () => {
-  const theme = useMantineTheme();
   const { classes, cx } = useStyles();
   const [active, setActive] = useState("Archived Plans");
+  const [archivedPlans, setArchivedPlans] = useState([]);
+
+  const fetchArchivedPlans = async () => {
+    try {
+      const { ethereum } = window;
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(
+          window.ethereum,
+          "any"
+        );
+        const planContract = new ethers.Contract(
+          planAddress,
+          planABI,
+          provider
+        );
+        const getArchivedPlans = await planContract.fetchNonActivePlans();
+        const archivedPlans = getArchivedPlans.map((i) => {
+          let archivedPlan = {
+            planId: i.planId.toString(),
+            planName: i.planName.toString(),
+            planCost: i.planCost.toString(),
+            planDuration: i.planDuration.toString(),
+            planStart: i.planStart.toString(),
+            planEnd: i.planEnd.toString(),
+            planSubscribers: i.planSubscribers.toString(),
+          };
+          return archivedPlan;
+        });
+        setArchivedPlans(archivedPlans);
+      } else {
+        alert("Install Metamask");
+      }
+    } catch (error) {
+      console.log(error.data.message);
+    }
+  };
+
+  const renderArchivedPlans = () => {
+    if (archivedPlans.length > 0) {
+      return (
+        <Container sx={{ maxWidth: 1080 }} mx="auto">
+          <Text
+            size="xl"
+            weight={500}
+            color="blue"
+            style={{ marginBottom: 30 }}
+          >
+            Archived Plans
+          </Text>
+          {archivedPlans.map((archivedPlan, index) => {
+            return PlanCard(
+              index,
+              archivedPlan.planName,
+              archivedPlan.planId,
+              archivedPlan.planSubscribers,
+              archivedPlan.planCost,
+              archivedPlan.planDuration
+            );
+          })}
+        </Container>
+      );
+    } else {
+      return (
+        <Container sx={{ maxWidth: 1080 }} mx="auto">
+          <Text
+            size="xl"
+            weight={500}
+            color="blue"
+            style={{ marginBottom: 30 }}
+          >
+            No Archived Plans
+          </Text>
+        </Container>
+      );
+    }
+  };
+
+  const PlanCard = (
+    _key,
+    _planName,
+    _planId,
+    _subscribers,
+    _planCost,
+    _planDuration
+  ) => {
+    const formatId = (_planId) => {
+      if (_planId.length > 3) {
+        return _planId;
+      } else if (_planId.length > 2) {
+        return `0${_planId}`;
+      } else if (_planId.length > 1) {
+        return `00${_planId}`;
+      } else if (_planId.length > 0) {
+        return `000${_planId}`;
+      }
+    };
+    const formatDate = (_planDuration) => {
+      let duration = parseInt(_planDuration) / (24 * 60 * 60);
+      if (duration === 30) {
+        return `1 Month`;
+      } else if (duration === 92) {
+        return `3 Months`;
+      } else if (duration === 183) {
+        return `6 Months`;
+      } else if (duration === 365) {
+        return `1 Year`;
+      } else if (duration === 1) {
+        return `1 Day`;
+      }
+      return `${duration} days`;
+    };
+
+    let _displayPlanId = `Plan Id: #${formatId(_planId)}`;
+    let _displayPlanSubscribers = `${_subscribers} Subscribers`;
+    let _displayPlanCost = `Cost: ${ethers.utils.formatEther(_planCost)} MATIC`;
+    let _displayPlanDuration = `Duration: ${formatDate(_planDuration)}`;
+
+    return (
+      <Card key={_key} className="archived-plan-card" shadow="xs" withBorder>
+        <div className="archived-grid-container">
+          <div className="archived-grid-items archived-grid-item-1">
+            <Text size="xl" weight={500}>
+              {_planName}
+            </Text>
+          </div>
+          <div className="archived-grid-items archived-grid-item-2">
+            <Text weight={500}>{_displayPlanId}</Text>
+            <Text weight={500}>{_displayPlanSubscribers}</Text>
+          </div>
+          <div className="archived-grid-items archived-grid-item-3">
+            <Text weight={500}>{_displayPlanCost}</Text>
+            <Text weight={500}>{_displayPlanDuration}</Text>
+            {/* <Text weight={500}>Plan Started 8 days ago</Text>
+            <Text weight={500}>Plan Archived/Ended 5 days ago</Text> */}
+          </div>
+        </div>
+      </Card>
+    );
+  };
+
+  useEffect(() => {
+    fetchArchivedPlans();
+  }, []);
 
   const links = data.map((item) => (
-    <Link to={item.link}>
+    <Link to={item.link} className="link">
       <span
         className={cx(classes.link, {
           [classes.linkActive]: item.label === active,
@@ -124,16 +239,7 @@ export const ArchivedPlan = () => {
         </Navbar>
       }
     >
-      <Container sx={{ maxWidth: 1080 }} mx="auto">
-        <Text size="xl" weight={500} color="blue" style={{ marginBottom: 30 }}>
-          Archived Plans
-        </Text>
-        <PlanCard />
-        <PlanCard />
-        <PlanCard />
-        <PlanCard />
-        <PlanCard />
-      </Container>
+      {renderArchivedPlans()}
     </AppShell>
   );
 };

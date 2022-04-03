@@ -1,5 +1,4 @@
-import "./App.css";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { Plans } from "./pages/Plans";
 import { Profile } from "./pages/Profile";
@@ -18,14 +17,14 @@ function App() {
         link: "/",
         label: "Home",
       },
-      {
-        link: "/register",
-        label: "Register",
-      },
-      {
-        link: "/features",
-        label: "Features",
-      },
+      // {
+      //   link: "/register",
+      //   label: "Register",
+      // },
+      // {
+      //   link: "/features",
+      //   label: "Features",
+      // },
       {
         link: "/plans",
         label: "Plans",

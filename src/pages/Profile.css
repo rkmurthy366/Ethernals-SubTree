@@ -1,0 +1,16 @@
+.plan-card {
+  margin: auto;
+  margin-bottom: 1.4rem;
+  background-color: rgba(247, 228, 255, 0.192);
+}
+
+.profile-grid-container {
+  display: grid;
+  gap: 0.1rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.profile-grid-items {
+  display: flex;
+  flex-direction: column;
+}

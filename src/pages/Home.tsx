@@ -1,5 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
+import { ethers } from "ethers";
 import { createStyles, Container, Title, Text, Button } from "@mantine/core";
+import { showNotification } from "@mantine/notifications";
+import { Check, X } from "tabler-icons-react";
+import { ticketAddress, ticketABI } from "../components/Contract/contract";
+import { useMoralis } from "react-moralis";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -76,6 +81,57 @@ const useStyles = createStyles((theme) => ({
 
 export function Home() {
   const { classes } = useStyles();
+  const { isAuthenticated } = useMoralis();
+  const [loading, setLoading] = useState(false);
+
+  async function register() {
+    try {
+      const { ethereum } = window;
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const ticketContract = new ethers.Contract(
+          ticketAddress,
+          ticketABI,
+          signer
+        );
+
+        if (isAuthenticated) {
+          setLoading(true);
+          let tx = await ticketContract.register();
+          const receipt = await tx.wait();
+          if (receipt.status === 1) {
+            console.log(
+              "Ticket minted! https://mumbai.polygonscan.com/tx/" + tx.hash
+            );
+          }
+          showNotification({
+            icon: <Check size={18} />,
+            color: "teal",
+            title: "Success",
+            message: `Ticket minted! successfully 🥳`,
+          });
+        } else {
+          console.log("Please connect to the wallet");
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      if (
+        error.data.message ==
+        "Error: VM Exception while processing transaction: reverted with reason string 'User already has Ticket'"
+      ) {
+        showNotification({
+          icon: <X size={18} />,
+          color: "red",
+          title: "Failed",
+          message: `User already has Ticket`,
+        });
+      }
+    }
+    setLoading(false);
+  }
+
   return (
     <div className={classes.root}>
       <Container size="lg">
@@ -106,8 +162,10 @@ export function Home() {
               size="xl"
               className={classes.control}
               mt={40}
+              onClick={register}
+              disabled={loading}
             >
-              Get started
+              Register
             </Button>
           </div>
         </div>

@@ -1,13 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  TabsProps,
-  Tabs,
-  createStyles,
-  AppShell,
-  Navbar,
-  useMantineTheme,
-} from "@mantine/core";
+import { TabsProps, Tabs, createStyles, AppShell, Navbar } from "@mantine/core";
 import { SimplePlan } from "../../components/Admin/SimplePlan";
 import { SpecialPlan } from "../../components/Admin/SpecialPlan";
 
@@ -85,12 +78,11 @@ function StyledTabs(props: TabsProps) {
 }
 
 export const CreatePlan = () => {
-  const theme = useMantineTheme();
   const { classes, cx } = useStyles();
   const [active, setActive] = useState("Create Plan");
 
   const links = data.map((item) => (
-    <Link to={item.link}>
+    <Link to={item.link} className="link">
       <span
         className={cx(classes.link, {
           [classes.linkActive]: item.label === active,

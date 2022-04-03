@@ -6,10 +6,10 @@ import {
   Header,
   Container,
   Group,
-  Button,
   Burger,
 } from "@mantine/core";
 import { useBooleanToggle } from "@mantine/hooks";
+import { ConnectWallet } from "./Wallet/ConnectWallet";
 const HEADER_HEIGHT = 70;
 
 const useStyles = createStyles((theme) => ({
@@ -21,15 +21,15 @@ const useStyles = createStyles((theme) => ({
   },
 
   links: {
-    [theme.fn.smallerThan("sm")]: {
-      display: "none",
-    },
+    // [theme.fn.smallerThan("sm")]: {
+    //   display: "none",
+    // },
   },
 
   button: {
-    [theme.fn.smallerThan("sm")]: {
-      display: "none",
-    },
+    // [theme.fn.smallerThan("sm")]: {
+    //   display: "none",
+    // },
   },
 
   burger: {
@@ -77,16 +77,19 @@ interface HeaderProps {
 
 export function HeaderNav({ links }: HeaderProps) {
   const [opened, toggleOpened] = useBooleanToggle(false);
-  const [active, setActive] = useState(links[0].link);
+  const [active, setActive] = useState(window.location.pathname);
   const { classes, cx } = useStyles();
 
   const items = links.map((links) => (
-    <Link to={links.link}>
+    <Link className="link" to={links.link}>
       <span
-        className={cx(classes.link, { [classes.linkActive]: active === links.link })}
+        className={cx(classes.link, {
+          [classes.linkActive]: active === links.link,
+        })}
         onClick={(event) => {
           setActive(links.link);
         }}
+        key={links.label}
       >
         {links.label}
       </span>
@@ -96,32 +99,26 @@ export function HeaderNav({ links }: HeaderProps) {
   return (
     <Header height={HEADER_HEIGHT}>
       <Container className={classes.header} fluid>
-        <Text
-          component="span"
-          align="center"
-          variant="gradient"
-          gradient={{ from: "indigo", to: "cyan", deg: 45 }}
-          weight={900}
-          style={{
-            fontFamily: "Verdana, sans-serif",
-            fontSize: 30,
-            letterSpacing: -1,
-          }}
-        >
-          DinoLabs
-        </Text>
+        <Link className="link" to="/">
+          <Text
+            component="span"
+            align="center"
+            variant="gradient"
+            gradient={{ from: "indigo", to: "cyan", deg: 45 }}
+            weight={900}
+            style={{
+              fontFamily: "Verdana, sans-serif",
+              fontSize: 30,
+              letterSpacing: -1,
+            }}
+          >
+            DinoLabs
+          </Text>
+        </Link>
         <Group spacing={5} className={classes.links}>
           {items}
         </Group>
-        <Button
-          className={classes.button}
-          variant="gradient"
-          gradient={{ from: "indigo", to: "cyan", deg: 45 }}
-          size="md"
-          radius="sm"
-        >
-          Connect Wallet
-        </Button>
+        <ConnectWallet />
         <Burger
           opened={opened}
           onClick={() => toggleOpened()}
